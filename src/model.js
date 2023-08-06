@@ -12,64 +12,67 @@ export default class Model {
           ];
 
           this.clickedElementID = 0;
-          this.currentPlayer = 0
+          this.moveScore = 0
+          this.movePlayer = ''
           this.playerX = [];
           this.playerO = [];
-          this.playersWin = '';
+          this.winner = '';
     }
 
-    moveRecord (event) {
-        if(this.playersWin || event.target.innerHTML) {
+    recordMove(event) {
+        if(this.winner || event.target.innerHTML) {
             return
         }
-
-        this.clickedElementID = +event.target.id
-        this.currentPlayer += 1
-
-        if(this.currentPlayer % 2 === 0) {
-            this.playerO.push(this.clickedElementID)
-        }
-
-        else {
-            this.playerX.push(this.clickedElementID)
-        }
+        this.moveScore += 1
+        this.clickedElementID = Number(event.target.id)
+        const activArray = this.activePlayer() 
+        activArray.push(this.clickedElementID)
     }
 
     checkWinnings () {
-        let wincombA = 0
-        let wincombB = 0
-        if(this.currentPlayer % 2 === 0) {
-            this.winLines.forEach(item => {
-                wincombB = 0
-                for(let i = 0; i < this.playerO.length; i++ ) {
-                    const found = item.includes(this.playerO[i]) 
-                    if(found) {
-                        wincombB += 1
-                    }
-
-                    if(wincombB === 3) {
-                        this.playersWin = 'O';
-                    }
+        const activArray = this.activePlayer() 
+        
+        this.winLines.forEach(item => {
+            let wincomb = 0
+            for(let i = 0; i < activArray.length; i++ ) {
+                const found = item.includes(activArray[i]) 
+                if(found) {
+                    wincomb += 1
                 }
-            })
-        }
+                if(wincomb === 3) {
+                    this.winner = this.movePlayer;
+                }
+            }
+        })
+    }
 
+    activePlayer() {
+        if(this.moveScore % 2 === 0) {
+            this.movePlayer = 'O'
+            return this.playerO
+        }
         else {
-            this.winLines.forEach(item => {
-                wincombA = 0
-                    for(let i = 0; i < this.playerX.length; i++ ) {
-                        const found = item.includes(this.playerX[i]) 
-                        if(found) {
-                            wincombA += 1
-                        }
-
-                        if(wincombA === 3) {
-                            this.playersWin = 'X';
-                        }
-                    }
-            })
+            this.movePlayer = 'X'
+            return this.playerX
         }
     }
 
+    nextPlayer() {
+        if(this.movePlayer === 'X') {
+            return 'O';
+        }
+        if(this.movePlayer === 'O') {
+            return 'X';
+        }
     }
+    clearModel() {
+        this.clickedElementID = 0;
+        this.moveScore = 0
+        this.movePlayer = ''
+        this.playerX = [];
+        this.playerO = [];
+        this.winner = '';
+    }
+}
+
 

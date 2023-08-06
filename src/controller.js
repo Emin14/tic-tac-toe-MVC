@@ -5,20 +5,20 @@ export default class Controller {
     }
     
     init() {
-        this.view.listenInboxClick(this.onMove.bind(this));
-        this.view.refreshWhoWalks(this.model.currentPlayer, this.model.playersWin);
+        this.view.listenCellClick(this.onMove.bind(this));
+        this.view.clearCells(this.model.clearModel.bind(this));
     }
 
     onMove(event) {
-        this.model.moveRecord(event);
+        this.model.recordMove(event);
         this.model.checkWinnings();
         this.onUpdate()
     }
 
     onUpdate() {
-        this.view.refreshWhoWins(this.model.playersWin, this.model.currentPlayer);
-        this.view.refreshCell(this.model.clickedElementID, this.model.currentPlayer);
-        this.view.refreshWhoWalks(this.model.currentPlayer);
+        this.view.displayWinner(this.model.winner, this.model.moveScore);
+        this.view.refreshCell(this.model.clickedElementID, this.model.movePlayer);
+        this.view.displayNext( this.model.winner, this.model.nextPlayer());
     }
 
 }
