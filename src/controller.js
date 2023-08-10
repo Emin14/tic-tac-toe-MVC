@@ -6,7 +6,7 @@ export default class Controller {
     
     init() {
         this.view.listenCellClick(this.onMove.bind(this));
-        this.view.clearCells(this.clear.bind(this));
+        this.view.listenRestartBtn(this.restart.bind(this));
     }
 
     onMove(event) {
@@ -16,16 +16,14 @@ export default class Controller {
     }
 
     onUpdate() {
-        this.view.displayWinner(this.model.winner, this.model.moveScore);
+        this.view.setWinner(this.model.winner, this.model.moveScore);
         this.view.refreshCell(this.model.clickedElementID, this.model.movePlayer);
         this.view.displayNext( this.model.winner, this.model.nextPlayer());
     }
 
-    clear() {
-        console.log('i am')
-        this.model.restart()
+    restart() {
+        this.model.clear()
+        this.view.clearCells()
     }
 
 }
-
-

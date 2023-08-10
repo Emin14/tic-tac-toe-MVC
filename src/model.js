@@ -20,12 +20,6 @@ export default class Model {
     }
 
     recordMove(event) {
-        console.log(this._clickedElementID) 
-        console.log(this._moveScore) 
-        console.log(this._movePlayer) 
-        console.log(this.playerX) 
-        console.log(this.playerO) 
-        console.log(this._winner) 
         if(this._winner || event.target.innerHTML) {
             return
         }
@@ -44,7 +38,6 @@ export default class Model {
                 const found = item.includes(activArray[i]) 
                 if(found) {
                     wincomb += 1
-                    console.log(wincomb)
                 }
                 if(wincomb === 3) {
                     this._winner = this._movePlayer;
@@ -65,13 +58,21 @@ export default class Model {
     }
 
     nextPlayer() {
-        console.log(this._movePlayer)
         if(this._movePlayer === 'X') {
             return 'O';
         }
         if(this._movePlayer === 'O') {
             return 'X';
         }
+    }
+
+    clear() {
+        this._moveScore = 0
+        this._movePlayer = ''
+        this._winner = '';
+        this._clickedElementID = 0
+        this.playerX = [];
+        this.playerO = [];
     }
 
     // геттеры
@@ -91,31 +92,4 @@ export default class Model {
         return this._movePlayer
       }
 
-    // cеттеры
-
-    set clickedElementID(value) {
-        this._clickedElementID = value
-    }
-    set moveScore(value) {
-        this._moveScore = value
-    }
-    set movePlayer(value) {
-        this._movePlayer = value
-    }
-    set winner(value) {
-        this._winner = value
-    }
-
-    restart() {
-        console.log('tttt')
-        this._moveScore = 0
-        this._movePlayer = ''
-        this._winner = '';
-        this._clickedElementID = 0
-        this.playerX = [];
-        this.playerO = [];
-    }
-
 }
-
-

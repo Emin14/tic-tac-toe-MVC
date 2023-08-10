@@ -1,17 +1,15 @@
 export default class View {
     constructor() {
-        this.boxClick = document.querySelector('.box');
-        this.winPlayer = document.querySelector('.winPlayer');
-        this.winPlayerWrapper = document.querySelector('.winPlayer-wrapper');
-        this.walksPlayer = document.querySelector('.walksPlayer');
-        this.walksPlayerWrapper = document.querySelector('.walksPlayer-wrapper');
-        this.restart = document.querySelector('.restart');
+        this.box = document.querySelector('.box');
+        this.displayWinner = document.querySelector('.winning-player');
+        this.displayWalks = document.querySelector('.walks-player');
+        this.restartbtn = document.querySelector('.restarting');
         this.cellAll = document.querySelectorAll('.cell');
     }
 
 
     listenCellClick (callback) {
-        this.boxClick.addEventListener('click', callback)
+        this.box.addEventListener('click', callback)
     }
       
     refreshCell(id, activPlayer) {
@@ -19,21 +17,22 @@ export default class View {
             currentElement.innerHTML = activPlayer
     }
 
-    displayWinner(winner, moveScore) {
+    setWinner(winner, moveScore) {
         if(moveScore === 9 && !winner) {
-            this.winPlayerWrapper.style.display = 'flex'
-            this.winPlayer.innerHTML = 'Ничья ';
+            this.displayWinner.style.visibility = 'visible'
+            this.displayWalks.style.visibility = 'hidden'
+            this.displayWinner.innerHTML = 'Ничья ';
         }
         if(winner) {
-            this.winPlayerWrapper.style.display = 'flex'
-            this.walksPlayerWrapper.style.display = 'none'
+            this.displayWinner.style.visibility = 'visible'
+            this.displayWalks.style.visibility = 'hidden'
         }
 
             if(winner === 'X') {
-                this.winPlayer.innerHTML = 'Победил 1 игрок: X';
+                this.displayWinner.innerHTML = 'Победил 1 игрок: X';
             }
             else if(winner === 'O') {
-                this.winPlayer.innerHTML = 'Победил 2 игрок: O';
+                this.displayWinner.innerHTML = 'Победил 2 игрок: O';
             }
     }
     
@@ -41,17 +40,19 @@ export default class View {
         if(winner) {
             return
         }
-        console.log(activPlayer)
-        this.walksPlayer.innerHTML = activPlayer;
+        this.displayWalks.innerHTML = `Ходит ${activPlayer}`;
     }
 
-    clearCells(callback) {
-        this.restart.addEventListener('click', () => {
-        this.cellAll.forEach(item => item.innerHTML = '')
-        this.winPlayerWrapper.style.display = 'none'
-        this.walksPlayerWrapper.style.display = 'flex'
-        this.walksPlayer.innerHTML = 'X';
+    listenRestartBtn(callback) {
+        this.restartbtn.addEventListener('click', () => {
         callback()
     })
+    }
+
+    clearCells() {
+        this.cellAll.forEach(item => item.innerHTML = '')
+        this.displayWinner.style.visibility = 'hidden'
+        this.displayWalks.style.visibility = 'visible'
+        this.displayWalks.innerHTML = 'Ходит X';
     }
 }
