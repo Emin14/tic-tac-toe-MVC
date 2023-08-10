@@ -11,22 +11,28 @@ export default class Model {
             [2, 4, 6],
           ];
 
-          this.clickedElementID = 0;
-          this.moveScore = 0
-          this.movePlayer = ''
+          this._clickedElementID = 0;
+          this._moveScore = 0
+          this._movePlayer = ''
           this.playerX = [];
           this.playerO = [];
-          this.winner = '';
+          this._winner = '';
     }
 
     recordMove(event) {
-        if(this.winner || event.target.innerHTML) {
+        console.log(this._clickedElementID) 
+        console.log(this._moveScore) 
+        console.log(this._movePlayer) 
+        console.log(this.playerX) 
+        console.log(this.playerO) 
+        console.log(this._winner) 
+        if(this._winner || event.target.innerHTML) {
             return
         }
-        this.moveScore += 1
-        this.clickedElementID = Number(event.target.id)
+        this._moveScore += 1
+        this._clickedElementID = Number(event.target.id)
         const activArray = this.activePlayer() 
-        activArray.push(this.clickedElementID)
+        activArray.push(this._clickedElementID)
     }
 
     checkWinnings () {
@@ -38,41 +44,78 @@ export default class Model {
                 const found = item.includes(activArray[i]) 
                 if(found) {
                     wincomb += 1
+                    console.log(wincomb)
                 }
                 if(wincomb === 3) {
-                    this.winner = this.movePlayer;
+                    this._winner = this._movePlayer;
                 }
             }
         })
     }
 
     activePlayer() {
-        if(this.moveScore % 2 === 0) {
-            this.movePlayer = 'O'
+        if(this._moveScore % 2 === 0) {
+            this._movePlayer = 'O'
             return this.playerO
         }
         else {
-            this.movePlayer = 'X'
+            this._movePlayer = 'X'
             return this.playerX
         }
     }
 
     nextPlayer() {
-        if(this.movePlayer === 'X') {
+        console.log(this._movePlayer)
+        if(this._movePlayer === 'X') {
             return 'O';
         }
-        if(this.movePlayer === 'O') {
+        if(this._movePlayer === 'O') {
             return 'X';
         }
     }
-    clearModel() {
-        this.clickedElementID = 0;
-        this.moveScore = 0
-        this.movePlayer = ''
+
+    // геттеры
+    get moveScore() {
+        return this._moveScore
+      }
+
+    get winner() {
+      return this._winner
+    }
+
+    get clickedElementID() {
+      return this._clickedElementID
+    }
+
+    get movePlayer() {
+        return this._movePlayer
+      }
+
+    // cеттеры
+
+    set clickedElementID(value) {
+        this._clickedElementID = value
+    }
+    set moveScore(value) {
+        this._moveScore = value
+    }
+    set movePlayer(value) {
+        this._movePlayer = value
+    }
+    set winner(value) {
+        this._winner = value
+    }
+
+    restart() {
+        console.log('tttt')
+        this._moveScore = 0
+        this._movePlayer = ''
+        this._winner = '';
+        this._clickedElementID = 0
         this.playerX = [];
         this.playerO = [];
-        this.winner = '';
     }
+
 }
 
 

@@ -41,12 +41,16 @@ export default class View {
         if(winner) {
             return
         }
+        console.log(activPlayer)
         this.walksPlayer.innerHTML = activPlayer;
     }
 
     clearCells(callback) {
         this.restart.addEventListener('click', () => {
         this.cellAll.forEach(item => item.innerHTML = '')
+        this.winPlayerWrapper.style.display = 'none'
+        this.walksPlayerWrapper.style.display = 'flex'
+        this.walksPlayer.innerHTML = 'X';
         callback()
     })
     }
